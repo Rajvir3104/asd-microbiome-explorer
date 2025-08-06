@@ -1,6 +1,6 @@
 import numpy as np
 import pandas as pd
-import load_data  
+import src.load_data as load_data
 
 def preprocess_data(file_path):
     try:
@@ -33,7 +33,7 @@ def assign_group(sample_id):
 def get_group_labels(df):
     return [assign_group(sample) for sample in df.columns if sample != "Taxonomy"]
 
-if __name__ == "__main__":
-    df_processed = preprocess_data("../data/ASD meta abundance.csv")
-    if df_processed is not None:
-        print(df_processed.head())
+# if __name__ == "__main__":
+#     df_processed = preprocess_data("../data/ASD meta abundance.csv")
+#     if df_processed is not None:
+#         print(df_processed.head())

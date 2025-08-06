@@ -22,18 +22,23 @@ def get_confusion_matrix_figure(y_true, y_pred, labels=["ASD", "TD"]):
 def get_feature_importance_plot(model, feature_names, top_n=10):
     if hasattr(model.named_steps["classifier"], "feature_importances_"):
         importances = model.named_steps["classifier"].feature_importances_
-        top_indices = np.argsort(importances)[-top_n:]
-        data = {
+        
+        # Sort descending
+        top_indices = np.argsort(importances)[::-1][:top_n]
+        
+        df = pd.DataFrame({
             "Species": [feature_names[i] for i in top_indices],
             "Importance": [importances[i] for i in top_indices]
-        }
-        df = pd.DataFrame(data)
+        })
+        
         fig = px.bar(
             df, 
             x="Importance", 
             y="Species", 
             orientation='h',
-            title="Top Feature Importances (Microbial Taxa)"
+            title=f"Top {top_n} Feature Importances (Microbial Taxa)",
+            color="Importance",
+            color_continuous_scale="Viridis"
         )
         fig.update_layout(yaxis=dict(autorange="reversed"))
         return fig

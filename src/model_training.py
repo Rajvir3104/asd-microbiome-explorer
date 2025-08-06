@@ -6,12 +6,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report
-from preprocessing import preprocess_data, get_group_labels
+from src.preprocessing import preprocess_data, get_group_labels
 
 def train_models(file_path):
     df = preprocess_data(file_path)
     if df is None:
-        return
+        return None, None, None, None, None
 
     # Prepare data
     X = df.drop(columns=['Taxonomy']).T
@@ -22,9 +22,10 @@ def train_models(file_path):
     X = X[X['label'] != 'Unknown Group']
     y = X.pop('label')
 
-    
-    # Split
-    X_train, X_test, y_train, y_test = train_test_split(X, y, stratify=y, test_size=0.2, random_state=42)
+    # Split data
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, stratify=y, test_size=0.2, random_state=42
+    )
 
     # Pipeline setup
     pipe = Pipeline([
@@ -53,10 +54,14 @@ def train_models(file_path):
     ]
 
     # GridSearch
-    grid = GridSearchCV(pipe, param_grid, cv=5, scoring='f1_macro', n_jobs=-1, verbose=2)
+    grid = GridSearchCV(
+        pipe, param_grid, cv=5, scoring='f1_macro', n_jobs=-1, verbose=2
+    )
     grid.fit(X_train, y_train)
 
-    # Best model + performance
+    y_pred = grid.predict(X_test)
+
+       # Best model + performance
     print("Best estimator:", grid.best_estimator_)
     print("Best CV F1 Score:", grid.best_score_)
 
@@ -64,9 +69,11 @@ def train_models(file_path):
     print("Test Set Performance:")
     print(classification_report(y_test, y_pred))
 
+    # Get feature names from Taxonomy column
+    feature_names = df['Taxonomy'].tolist()
 
-    
+    return grid.best_estimator_, X_test, y_test, y_pred, grid.best_score_, feature_names
 
 
 if __name__ == "__main__":
-    train_models("data/ASD meta abundance.csv")
+    train_models("/Users/rajvir/Desktop/Personal/asd-microbiome-explorer/data/ASD_meta_abundance.csv")
