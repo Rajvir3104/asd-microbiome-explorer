@@ -1,10 +1,10 @@
-# 🧬 ASD Microbiome Explorer
+# ASD Microbiome Explorer
 
 **ASD Microbiome Explorer** is a Python-based tool for analyzing gut microbiome data in individuals with Autism Spectrum Disorder (ASD) and typically developing (TD) individuals. It provides statistical metrics, differential abundance analysis, and machine learning models to extract insights from microbiome abundance data.
 
 ---
 
-## 📊 Features
+## Features
 
 - **Alpha Diversity (Shannon Index)**  
   Measure within-sample microbial diversity.
