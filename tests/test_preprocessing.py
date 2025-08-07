@@ -8,6 +8,6 @@ def test_preprocess_data_valid_file():
 
 def test_get_group_labels():
     df = preprocess_data("data/ASD_meta_abundance.csv")
-    labels = get_group_labels(df)
+    labels = pd.Series(get_group_labels(df))
     assert isinstance(labels, pd.Series)
     assert set(labels.unique()).issubset({'ASD', 'TD', 'Unknown Group'})

@@ -40,7 +40,7 @@ def differential_abundance(
     y: pd.Series,
     taxa_names: list,
     alpha: float = 0.05
-) -> pd.DataFrame:
+):
     """
     Mann–Whitney U test per taxon (ASD vs TD) + Benjamini–Hochberg FDR.
     Returns sorted results with means, log2 fold-change, p, q.
