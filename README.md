@@ -23,3 +23,22 @@
 
 - **Unit Testing (Pytest)**  
   Test core functions for correctness and reproducibility.
+
+---
+
+## Installation & Setup
+
+### Clone the repository
+```bash
+git clone https://github.com/yourusername/asd-microbiome-explorer.git
+cd asd-microbiome-explorer
+```
+
+### Installing dependancies
+```
+pip install numpy pandas scikit-learn scipy statsmodels dash matplotlib seaborn pytest
+```
+### Running app.py
+```
+python dashboard/app.py
+```
